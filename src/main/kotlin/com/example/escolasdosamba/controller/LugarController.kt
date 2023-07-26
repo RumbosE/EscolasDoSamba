@@ -5,13 +5,14 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 @RequestMapping("/api/lugar")
 class LugarController (
         private val lugarService: LugarService
-) {
-    @GetMapping("/ciudades")
-    fun getAllCiudades() = lugarService.getAllCiudades()
+    ){
+    @GetMapping("/")
+    fun getLugares() = lugarService.getLugares()
 
+    @GetMapping("/estados")
+    fun getEstados() = lugarService.getEstados()
 }
