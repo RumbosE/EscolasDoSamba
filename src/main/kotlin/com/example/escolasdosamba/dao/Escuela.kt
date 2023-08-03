@@ -1,15 +1,16 @@
 package com.example.escolasdosamba.dao
 
 import jakarta.persistence.*
-import org.hibernate.annotations.GeneratorType
 import java.util.Date
+
+@SequenceGenerator(name = "escuela_generator", sequenceName = "erl_escuela_de_samba_id_seq", allocationSize = 1)
 
 @Entity
  @Table(name = "erl_escuela_de_samba")
 data class Escuela(
 
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "escuela_generator")
         var id: Long? = null,
 
         @Column(name="nombre", length = 50)
@@ -26,7 +27,13 @@ data class Escuela(
         var address: String,
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name="id_lugar", nullable = false, insertable = false)
-        var place: Lugar
+        @JoinColumn(name="id_lugar", nullable = false)
+        var place: Lugar,
+
+        @OneToMany(mappedBy = "escuelaTelefono")
+        var telefonos: List<Telefono> = emptyList(),
+
+        @OneToMany(mappedBy = "escuelaTitulo")
+        var titulos: List<Titulo> = emptyList()
 
 )

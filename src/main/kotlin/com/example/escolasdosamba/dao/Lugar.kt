@@ -21,4 +21,5 @@ data class Lugar(
         @JoinColumn(name="padre_id")
         var father: Lugar? = null,
 
+
 )

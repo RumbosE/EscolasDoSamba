@@ -12,4 +12,10 @@ interface LugarRepository : JpaRepository<Lugar, Long> {
             nativeQuery = true)
     fun getEstados(): List<Lugar>
 
+    @Query("SELECT * FROM erl_lugar WHERE tipo = 'REG'",
+        nativeQuery = true)
+    fun getRegiones(): List<Lugar>
+
+
+
 }

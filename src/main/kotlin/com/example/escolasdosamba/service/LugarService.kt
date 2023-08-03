@@ -14,6 +14,7 @@ interface ILugarService {
     fun getLugares(): LugaresDto
     fun getEstados(): LugaresDto
 
+    fun getRegiones(): LugaresDto
     fun getLugarById(id: Long): LugarDto
 
 }
@@ -25,9 +26,9 @@ class LugarService(
 
     override fun getEstados(): LugaresDto = lugarRepository.getEstados().toList().map (Lugar::toDto).let { LugaresDto(it) }
 
-    override fun getLugarById(id: Long): LugarDto {
-        TODO("Not yet implemented")
-    }
+    override fun getRegiones(): LugaresDto = lugarRepository.getRegiones().toList().map (Lugar::toDto).let { LugaresDto(it) }
+
+    override fun getLugarById(id: Long): LugarDto = getById(id).toDto()
 
     private fun getById(id:Long) =
             lugarRepository.findById(id)
