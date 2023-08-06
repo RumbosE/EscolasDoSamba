@@ -34,6 +34,9 @@ data class Escuela(
         var telefonos: List<Telefono> = emptyList(),
 
         @OneToMany(mappedBy = "escuelaTitulo")
-        var titulos: List<Titulo> = emptyList()
+        var titulos: List<Titulo> = emptyList(),
+
+        @OneToMany(mappedBy = "escuelaEC")
+        var colors: List<EC> = emptyList()
 
 )
