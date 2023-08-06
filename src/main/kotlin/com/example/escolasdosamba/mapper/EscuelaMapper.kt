@@ -11,11 +11,11 @@ fun Escuela.toDto() = EscuelaDto(
     history = history,
     foundationDate = foundationDate,
     address = address,
-    placeName = place?.name,
-    placeFatherName = place?.father?.name,
+    state = place?.name,
+    region = place?.father?.name,
     phones = telefonos.map(Telefono::toString),
     titles = titulos?.map(Titulo::toDto),
-    colors = colors?.map(EC::toDto)
+    colors = colors?.map(EC::toString)
 
 )
 

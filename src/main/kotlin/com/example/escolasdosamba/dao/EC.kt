@@ -24,7 +24,9 @@ data class EC(
     @JoinColumn(name = "id_color", referencedColumnName = "id",insertable=false, updatable=false )
     var colorEC: Color? = null,
 
-)
+){
+    override fun toString() = "${colorEC?.name}"
+}
 
 @Embeddable
 data class EcId(

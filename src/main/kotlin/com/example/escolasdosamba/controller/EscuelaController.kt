@@ -3,13 +3,7 @@ package com.example.escolasdosamba.controller
 import com.example.escolasdosamba.dto.escuela.EscuelaCreateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelaUpdateRequestDto
 import com.example.escolasdosamba.service.EscuelaService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PatchMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/escuela")
@@ -27,5 +21,8 @@ class EscuelaController(
 
     @PatchMapping("/{id}")
     fun updateEscuela(@PathVariable id: Long, @RequestBody escuelaUpdateRequestDto: EscuelaUpdateRequestDto) = escuelaService.updateEscuela(id, escuelaUpdateRequestDto)
+
+    @DeleteMapping("/{id}")
+    fun deleteEscuela(@PathVariable id: Long) = escuelaService.deleteEscuela(id)
 
 }

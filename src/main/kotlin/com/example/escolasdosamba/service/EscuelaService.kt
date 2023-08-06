@@ -24,6 +24,8 @@ interface IEscuelaService{
     fun saveEscuela(escuela: EscuelaCreateRequestDto): EscuelaDto
 
     fun updateEscuela(id: Long, escuelaRequest: EscuelaUpdateRequestDto): EscuelaDto
+
+    fun deleteEscuela(id: Long): EscuelaDto
 }
 
 @Service
@@ -57,6 +59,9 @@ class EscuelaService(
 
         escuela.toDto()
     }
+
+    override fun deleteEscuela(id: Long): EscuelaDto = getById(id).toDto()
+        .also { escuelaRepository.deleteById(id) }
 
     private fun getById(id:Long) =
         escuelaRepository.findById(id)
