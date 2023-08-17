@@ -1,10 +1,11 @@
 package com.example.escolasdosamba.dto.titulo
 
 import java.sql.Date
-import java.time.Year
 
-data class TituloDto(
+
+data class TituloCreateRequestDto (
+    var idEscuela: Long?,
     val year: Date?,
     val monto: Float?,
-    val grupo: String?,
+    val grupo: String?
 )

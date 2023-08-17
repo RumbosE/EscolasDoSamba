@@ -37,6 +37,9 @@ data class Escuela(
         var titulos: List<Titulo> = emptyList(),
 
         @OneToMany(mappedBy = "escuelaEC")
-        var colors: List<EC> = emptyList()
+        var colors: List<EC> = emptyList(),
+
+        @OneToMany(mappedBy = "escuelaPremio")
+        var premios: List<Ganador> = emptyList()
 
 )

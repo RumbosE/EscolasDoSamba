@@ -1,5 +1,7 @@
 package com.example.escolasdosamba.dto.escuela
 
+import com.example.escolasdosamba.dto.color.ColorDto
+import com.example.escolasdosamba.dto.premio.PremioEspecialDto
 import com.example.escolasdosamba.dto.titulo.TituloDto
 import java.util.Date
 
@@ -13,7 +15,9 @@ data class EscuelaDto(
         val region: String?,
         val phones: List<String>?,
         val titles: List<TituloDto>?,
-        val colors: List<String>?
+        val colors: List<ColorDto>?,
+        val premios: List<PremioEspecialDto>?
+
 )
 
 data class EscuelaSummaryInfoDto(

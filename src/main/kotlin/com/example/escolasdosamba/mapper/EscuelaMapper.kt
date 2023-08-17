@@ -1,6 +1,7 @@
 package com.example.escolasdosamba.mapper
 
 import com.example.escolasdosamba.dao.*
+import com.example.escolasdosamba.dto.color.ColorDto
 import com.example.escolasdosamba.dto.escuela.EscuelaCreateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelaDto
 import com.example.escolasdosamba.dto.escuela.EscuelaSummaryInfoDto
@@ -15,7 +16,8 @@ fun Escuela.toDto() = EscuelaDto(
     region = place?.father?.name,
     phones = telefonos.map(Telefono::toString),
     titles = titulos?.map(Titulo::toDto),
-    colors = colors?.map(EC::toString)
+    colors = colors?.map(EC::toDto),
+    premios = premios?.map(Ganador::toDto)
 
 )
 

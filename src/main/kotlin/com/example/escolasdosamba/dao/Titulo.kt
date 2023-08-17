@@ -2,8 +2,8 @@ package com.example.escolasdosamba.dao
 
 import jakarta.persistence.*
 import java.io.Serializable
+import java.sql.Date
 import java.util.Calendar
-import java.util.Date
 
 @Entity
 @Table(name="erl_hist_titulo")
@@ -34,9 +34,9 @@ data class Titulo(
 data class TituloId(
 
     @Column(name="id_escuela")
-    var idEscuela: Long?,
+    var idEscuela: Long,
 
     @Column(name="año")
-    var year: Date?,
+    var year: Date,
 
     ): Serializable

@@ -5,9 +5,12 @@ import com.example.escolasdosamba.dto.escuela.EscuelaCreateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelaDto
 import com.example.escolasdosamba.dto.escuela.EscuelaUpdateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelasDto
+import com.example.escolasdosamba.dto.titulo.TituloCreateRequestDto
+import com.example.escolasdosamba.dto.titulo.TituloDto
 import com.example.escolasdosamba.mapper.toDao
 import com.example.escolasdosamba.mapper.toDto
 import com.example.escolasdosamba.mapper.toSummaryDto
+import com.example.escolasdosamba.repository.EcRepository
 import com.example.escolasdosamba.repository.EscuelaRepository
 import com.example.escolasdosamba.repository.LugarRepository
 import org.springframework.stereotype.Service
@@ -26,12 +29,19 @@ interface IEscuelaService{
     fun updateEscuela(id: Long, escuelaRequest: EscuelaUpdateRequestDto): EscuelaDto
 
     fun deleteEscuela(id: Long): EscuelaDto
+
+    fun addColor(id: Long, colorId: Long): EscuelaDto
+
+    fun deleteColor(id: Long, colorId: Long): EscuelaDto
+
+
 }
 
 @Service
 class EscuelaService(
     private val escuelaRepository: EscuelaRepository,
-    private val lugarRepository: LugarRepository
+    private val lugarRepository: LugarRepository,
+    private val ecRepository: EcRepository
 ): IEscuelaService {
 
     override fun getEscuelas() = escuelaRepository.findAll()
@@ -62,6 +72,18 @@ class EscuelaService(
 
     override fun deleteEscuela(id: Long): EscuelaDto = getById(id).toDto()
         .also { escuelaRepository.deleteById(id) }
+
+    override fun addColor(id: Long, colorId: Long): EscuelaDto {
+
+        ecRepository.insertColor(id, colorId)
+        return getById(id).toDto()
+    }
+
+    override fun deleteColor(id: Long, colorId: Long): EscuelaDto {
+        ecRepository.deleteColor(id, colorId)
+        return getById(id).toDto()
+    }
+
 
     private fun getById(id:Long) =
         escuelaRepository.findById(id)

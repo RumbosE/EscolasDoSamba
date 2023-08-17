@@ -25,4 +25,9 @@ class EscuelaController(
     @DeleteMapping("/{id}")
     fun deleteEscuela(@PathVariable id: Long) = escuelaService.deleteEscuela(id)
 
+    @PostMapping("/{id}/color/{colorId}")
+    fun addColor(@PathVariable id: Long, @PathVariable colorId: Long) = escuelaService.addColor(id, colorId)
+
+    @DeleteMapping("/{id}/color/{colorId}")
+    fun deleteColor(@PathVariable id: Long, @PathVariable colorId: Long) = escuelaService.deleteColor(id, colorId)
 }
