@@ -17,7 +17,7 @@ data class Color(
     @Column(name="nombre")
     var name: String,
 
-    @OneToMany(mappedBy="colorEC")
-    var EC: List<EC>
+    @ManyToMany(mappedBy = "colors", fetch = FetchType.LAZY)
+    var escuelas: MutableList<Escuela> = mutableListOf()
 )
 

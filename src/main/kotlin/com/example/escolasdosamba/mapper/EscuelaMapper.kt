@@ -12,12 +12,12 @@ fun Escuela.toDto() = EscuelaDto(
     history = history,
     foundationDate = foundationDate,
     address = address,
-    state = place?.name,
-    region = place?.father?.name,
+    state = place.name,
+    region = place.father?.name,
     phones = telefonos.map(Telefono::toString),
-    titles = titulos?.map(Titulo::toDto),
-    colors = colors?.map(EC::toDto),
-    premios = premios?.map(Ganador::toDto)
+    titles = titulos.map(Titulo::toDto),
+    colors = colors.map(Color::toDto),
+    premios = premios.map(Ganador::toDto)
 
 )
 

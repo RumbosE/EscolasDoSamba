@@ -19,6 +19,7 @@ import kotlin.jvm.optionals.getOrNull
 interface ITituloService {
 
     fun getTitulos(idEscuela: Long): TitulosDto
+
     fun getTituloById(idEscuela: Long, year: Date): TituloDto
 
     fun createTitulo(idEscuela: Long, tituloCreateRequestDto: TituloCreateRequestDto): TituloDto
@@ -39,36 +40,36 @@ class TituloService (
             throw NoSuchElementException("No se encontró la escuela con id: $idEscuela")
         }
         else {
-            return TitulosDto(tituloRepository.findAll().filter { it.id.idEscuela == idEscuela }.map { it.toDto() })
+            return tituloRepository.findByIdIdEscuela(idEscuela)
+                .map { it.toDto() }
+                .let { TitulosDto(it) }
         }
     }
     override fun getTituloById(idEscuela: Long, year: Date): TituloDto = getById(idEscuela, year).toDto()
 
-    override fun createTitulo(idEscuela: Long, tituloCreateRequestDto: TituloCreateRequestDto): TituloDto {
-        if (escuelaRepository.findById(idEscuela).isEmpty) {
-            throw NoSuchElementException("No se encontró la escuela con id: $idEscuela")
+    override fun createTitulo(idEscuela: Long, tituloCreateRequestDto: TituloCreateRequestDto): TituloDto =
+        with(escuelaRepository.findById(idEscuela).getOrNull()) {
+            if (this == null) {
+                throw NoSuchElementException("No se encontró la escuela con id: $idEscuela")
+            }
 
-        } else{
-            val escuela= escuelaRepository.findById(idEscuela).get()
-            return tituloRepository.save(tituloCreateRequestDto.toDao(escuela)).toDto()
+            return tituloRepository.save(tituloCreateRequestDto.toDao(this)).toDto()
         }
-    }
 
     override fun deleteTitulo(idEscuela: Long, year: Date): TituloDto = getById(idEscuela, year).toDto().
         also { tituloRepository.deleteById(TituloId(idEscuela,year)) }
 
     @Transactional
-    override fun updateTitulo(idEscuela: Long, year: Date ,tituloRequest: TituloUpdateRequestDto): TituloDto = with(tituloRequest){
-        val titulo = getById(idEscuela,year )
+    override fun updateTitulo(idEscuela: Long, year: Date ,tituloRequest: TituloUpdateRequestDto): TituloDto =
+        with(tituloRequest){
 
-        monto?.let { titulo.monto = it }
-        grupo?.let { titulo.grupo = it }
+            val titulo = getById(idEscuela, year)
 
-        titulo.toDto()
+            monto?.let { titulo.monto = it }
+            grupo?.let { titulo.grupo = it }
+
+            titulo.toDto()
     }
-
-
-
 
     private fun getById(idEscuela: Long, year: Date) =
         tituloRepository.findById(TituloId(idEscuela,year)).getOrNull()

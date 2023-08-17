@@ -31,15 +31,23 @@ data class Escuela(
         var place: Lugar,
 
         @OneToMany(mappedBy = "escuelaTelefono")
-        var telefonos: List<Telefono> = emptyList(),
+        var telefonos: MutableList<Telefono> = mutableListOf(),
 
         @OneToMany(mappedBy = "escuelaTitulo")
-        var titulos: List<Titulo> = emptyList(),
+        var titulos: MutableList<Titulo> = mutableListOf(),
 
-        @OneToMany(mappedBy = "escuelaEC")
-        var colors: List<EC> = emptyList(),
+        //@OneToMany(mappedBy = "escuelaEC")
+        //var colors: List<EC> = emptyList(),
+
+        @ManyToMany
+        @JoinTable(
+                name= "erl_e_c",
+                joinColumns = [JoinColumn(name="id_escuela")],
+                inverseJoinColumns = [JoinColumn(name="id_color")]
+        )
+        var colors: MutableList<Color> = mutableListOf(),
 
         @OneToMany(mappedBy = "escuelaPremio")
-        var premios: List<Ganador> = emptyList()
+        var premios: MutableList<Ganador> = mutableListOf()
 
 )

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.transaction.annotation.Transactional
 
 interface EcRepository: JpaRepository<EC, Long> {
+
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO erl_e_c (id_color,id_escuela) VALUES (:color, :escuela)",

@@ -10,6 +10,7 @@ import com.example.escolasdosamba.dto.titulo.TituloDto
 import com.example.escolasdosamba.mapper.toDao
 import com.example.escolasdosamba.mapper.toDto
 import com.example.escolasdosamba.mapper.toSummaryDto
+import com.example.escolasdosamba.repository.ColorRepository
 import com.example.escolasdosamba.repository.EcRepository
 import com.example.escolasdosamba.repository.EscuelaRepository
 import com.example.escolasdosamba.repository.LugarRepository
@@ -34,14 +35,13 @@ interface IEscuelaService{
 
     fun deleteColor(id: Long, colorId: Long): EscuelaDto
 
-
 }
 
 @Service
 class EscuelaService(
     private val escuelaRepository: EscuelaRepository,
     private val lugarRepository: LugarRepository,
-    private val ecRepository: EcRepository
+    private val colorRepository: ColorRepository
 ): IEscuelaService {
 
     override fun getEscuelas() = escuelaRepository.findAll()
@@ -73,15 +73,28 @@ class EscuelaService(
     override fun deleteEscuela(id: Long): EscuelaDto = getById(id).toDto()
         .also { escuelaRepository.deleteById(id) }
 
+    @Transactional
     override fun addColor(id: Long, colorId: Long): EscuelaDto {
 
-        ecRepository.insertColor(id, colorId)
-        return getById(id).toDto()
+        val escuela = getById(id)
+        val color = colorRepository.findById(colorId).getOrNull()
+            ?: throw IllegalArgumentException("El color no puede ser nulo")
+
+        escuela.colors.add(color)
+        return escuela.toDto()
     }
 
+    @Transactional
     override fun deleteColor(id: Long, colorId: Long): EscuelaDto {
-        ecRepository.deleteColor(id, colorId)
-        return getById(id).toDto()
+
+        val escuela = getById(id)
+
+        val color = escuela.colors.find { it.id == colorId }
+            ?: throw IllegalArgumentException("La escuela no tiene el color con id $colorId")
+
+        escuela.colors.remove(color)
+        return escuela.toDto()
+
     }
 
 
