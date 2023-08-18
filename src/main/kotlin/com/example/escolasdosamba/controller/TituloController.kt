@@ -33,5 +33,5 @@ class TituloController(
         tituloService.updateTitulo(escuelaId, year, tituloUpdateRequestDto)
 
     @DeleteMapping("/escuelas/{escuelaId}/titulos")
-    fun deleteTitulo(@PathVariable escuelaId: Long,@RequestParam(name = "year", required = true) year: Date ) = tituloService.deleteTitulo(escuelaId, year)
+    fun deleteTitulo(@PathVariable escuelaId: Long, @RequestParam(name = "year", required = true) year: Date ) = tituloService.deleteTitulo(escuelaId, year)
 }

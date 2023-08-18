@@ -36,9 +36,6 @@ data class Escuela(
         @OneToMany(mappedBy = "escuelaTitulo")
         var titulos: MutableList<Titulo> = mutableListOf(),
 
-        //@OneToMany(mappedBy = "escuelaEC")
-        //var colors: List<EC> = emptyList(),
-
         @ManyToMany
         @JoinTable(
                 name= "erl_e_c",

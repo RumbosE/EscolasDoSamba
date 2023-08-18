@@ -56,8 +56,8 @@ class TituloService (
             return tituloRepository.save(tituloCreateRequestDto.toDao(this)).toDto()
         }
 
-    override fun deleteTitulo(idEscuela: Long, year: Date): TituloDto = getById(idEscuela, year).toDto().
-        also { tituloRepository.deleteById(TituloId(idEscuela,year)) }
+    override fun deleteTitulo(idEscuela: Long, year: Date): TituloDto = getById(idEscuela, year).toDto()
+        .also { tituloRepository.deleteById(TituloId(idEscuela, year)) }
 
     @Transactional
     override fun updateTitulo(idEscuela: Long, year: Date ,tituloRequest: TituloUpdateRequestDto): TituloDto =

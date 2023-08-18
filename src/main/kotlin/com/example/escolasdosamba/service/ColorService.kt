@@ -18,7 +18,6 @@ interface IColorService{
 @Service
 class ColorService(
     private val colorRepository: ColorRepository
-
 ): IColorService {
     override fun getAllColors(): ColorsDto = colorRepository.findAll()
         .map (Color::toDto)

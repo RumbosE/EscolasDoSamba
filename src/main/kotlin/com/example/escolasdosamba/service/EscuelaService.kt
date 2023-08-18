@@ -1,19 +1,19 @@
 package com.example.escolasdosamba.service
 
 import com.example.escolasdosamba.dao.Escuela
+import com.example.escolasdosamba.dao.TelefonoId
 import com.example.escolasdosamba.dto.escuela.EscuelaCreateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelaDto
 import com.example.escolasdosamba.dto.escuela.EscuelaUpdateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelasDto
-import com.example.escolasdosamba.dto.titulo.TituloCreateRequestDto
-import com.example.escolasdosamba.dto.titulo.TituloDto
+import com.example.escolasdosamba.dto.telefono.TelefonoCreateRequestDto
 import com.example.escolasdosamba.mapper.toDao
 import com.example.escolasdosamba.mapper.toDto
 import com.example.escolasdosamba.mapper.toSummaryDto
 import com.example.escolasdosamba.repository.ColorRepository
-import com.example.escolasdosamba.repository.EcRepository
 import com.example.escolasdosamba.repository.EscuelaRepository
 import com.example.escolasdosamba.repository.LugarRepository
+import com.example.escolasdosamba.repository.TelefonoRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -31,9 +31,13 @@ interface IEscuelaService{
 
     fun deleteEscuela(id: Long): EscuelaDto
 
-    fun addColor(id: Long, colorId: Long): EscuelaDto
+    fun addColorToEscuela(id: Long, colorId: Long): EscuelaDto
 
-    fun deleteColor(id: Long, colorId: Long): EscuelaDto
+    fun deleteColorToEscuela(id: Long, colorId: Long): EscuelaDto
+
+    fun addTelefonoToEscuela(id: Long, telefonoCreateRequestDto: TelefonoCreateRequestDto): EscuelaDto
+
+    fun deleteTelefonoToEscuela(id: Long, codigo: Long, numero:Long): EscuelaDto
 
 }
 
@@ -41,7 +45,8 @@ interface IEscuelaService{
 class EscuelaService(
     private val escuelaRepository: EscuelaRepository,
     private val lugarRepository: LugarRepository,
-    private val colorRepository: ColorRepository
+    private val colorRepository: ColorRepository,
+    private val telefonoRepository: TelefonoRepository
 ): IEscuelaService {
 
     override fun getEscuelas() = escuelaRepository.findAll()
@@ -74,7 +79,7 @@ class EscuelaService(
         .also { escuelaRepository.deleteById(id) }
 
     @Transactional
-    override fun addColor(id: Long, colorId: Long): EscuelaDto {
+    override fun addColorToEscuela(id: Long, colorId: Long): EscuelaDto {
 
         val escuela = getById(id)
         val color = colorRepository.findById(colorId).getOrNull()
@@ -85,7 +90,7 @@ class EscuelaService(
     }
 
     @Transactional
-    override fun deleteColor(id: Long, colorId: Long): EscuelaDto {
+    override fun deleteColorToEscuela(id: Long, colorId: Long): EscuelaDto {
 
         val escuela = getById(id)
 
@@ -97,6 +102,27 @@ class EscuelaService(
 
     }
 
+    override fun addTelefonoToEscuela(id: Long, telefonoCreateRequestDto: TelefonoCreateRequestDto): EscuelaDto {
+
+        val escuela = getById(id)
+
+         telefonoRepository.save(telefonoCreateRequestDto.toDao(escuela))
+
+        return escuela.toDto()
+
+    }
+
+    override fun deleteTelefonoToEscuela(id: Long, codigo: Long, numero: Long): EscuelaDto {
+
+        val escuela = getById(id)
+
+        if(telefonoRepository.findById(TelefonoId(codigo, numero)).isEmpty)
+            throw IllegalArgumentException("La escuela no tiene el telefono con codigo $codigo y numero $numero")
+
+        telefonoRepository.deleteById(TelefonoId(codigo, numero)).also { escuela.telefonos.removeIf { it.id.codigo == codigo && it.id.numero == numero } }
+
+        return escuela.toDto()
+    }
 
     private fun getById(id:Long) =
         escuelaRepository.findById(id)
