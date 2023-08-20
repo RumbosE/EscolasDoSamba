@@ -7,4 +7,5 @@ data class TituloDto(
     val year: Date?,
     val monto: Float?,
     val grupo: String?,
+    val fecha: Int?
 )

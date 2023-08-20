@@ -45,6 +45,8 @@ data class Escuela(
         var colors: MutableList<Color> = mutableListOf(),
 
         @OneToMany(mappedBy = "escuelaPremio")
-        var premios: MutableList<Ganador> = mutableListOf()
+        var premios: MutableList<Ganador> = mutableListOf(),
 
+        @OneToMany(mappedBy = "escuelaPeriodoActivo")
+        var periodosActivos: MutableList<PeriodoActivo> = mutableListOf()
 )

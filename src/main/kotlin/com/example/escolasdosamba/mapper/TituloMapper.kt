@@ -9,7 +9,9 @@ import com.example.escolasdosamba.dto.titulo.TituloDto
 fun Titulo.toDto() = TituloDto(
     year = id.year,
     monto = monto,
-    grupo = grupo
+    grupo = grupo,
+    fecha = getYear()
+
 )
 
 fun TituloCreateRequestDto.toDao(escuela: Escuela) = Titulo (
