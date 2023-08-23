@@ -3,6 +3,7 @@ package com.example.escolasdosamba.mapper
 import com.example.escolasdosamba.dao.*
 import com.example.escolasdosamba.dto.premio.PremioEspecialCreateRequestDto
 import com.example.escolasdosamba.dto.premio.PremioEspecialDto
+import com.example.escolasdosamba.dto.premio.PremioEspecialUpdateRequestDto
 
 fun Ganador.toDto() = PremioEspecialDto(
     id = id.idPremio,

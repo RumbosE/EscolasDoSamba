@@ -9,6 +9,7 @@ import com.example.escolasdosamba.dto.escuela.EscuelaDto
 import com.example.escolasdosamba.dto.escuela.EscuelaUpdateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelasDto
 import com.example.escolasdosamba.dto.premio.PremioEspecialCreateRequestDto
+import com.example.escolasdosamba.dto.premio.PremioEspecialDto
 import com.example.escolasdosamba.dto.telefono.TelefonoCreateRequestDto
 import com.example.escolasdosamba.mapper.toDao
 import com.example.escolasdosamba.mapper.toDto
@@ -40,7 +41,10 @@ interface IEscuelaService{
 
     fun deleteTelefonoToEscuela(id: Long, codigo: Long, numero:Long): EscuelaDto
 
-    fun agregarPremioEspecial(id: Long, year: Date,premioEspecialCreateRequestDto: PremioEspecialCreateRequestDto): EscuelaDto
+    fun addPremioEspecial(id: Long, year: Date, premioEspecialCreateRequestDto: PremioEspecialCreateRequestDto): EscuelaDto
+
+    fun deletePremioEspecial(id: Long, year: Date, idPremio: Long): EscuelaDto
+
 
 }
 
@@ -133,11 +137,11 @@ class EscuelaService(
     }
 
     @Transactional
-    override fun agregarPremioEspecial(id: Long, year: Date, premioEspecialCreateRequestDto: PremioEspecialCreateRequestDto): EscuelaDto {
+    override fun addPremioEspecial(id: Long, year: Date, premioEspecialCreateRequestDto: PremioEspecialCreateRequestDto): EscuelaDto {
 
         val escuela = getById(id)
 
-        val premio = premioEspecialService.savePremio(id, premioEspecialCreateRequestDto)
+        val premio = premioEspecialService.savePremio( premioEspecialCreateRequestDto )
 
         val ganador = {
             Ganador(
@@ -155,10 +159,37 @@ class EscuelaService(
         return escuela.toDto()
     }
 
+    @Transactional
+    override fun deletePremioEspecial(id: Long, year: Date, idPremio: Long): EscuelaDto {
+
+        val escuela = getById(id)
+
+        val premio = premioEspecialService.findById(idPremio)
+
+        val ganador = {
+            Ganador(
+               id = GanadorId(
+                   idPremio = premio.id?: throw Exception("IdPremio is required"),
+                   year = year
+               ),
+                id_escuela = id,
+                escuelaPremio = escuela,
+                premioGanador = premioRepository.findById(premio.id).get()
+            )
+        }
+
+        ganadorRepository.deleteById(ganador().id)
+            .also{ if (!ganadorRepository.existsGanadorByIdIdPremio(idPremio))
+                premioRepository.deleteById(idPremio)}
+            .also { escuela.premios.removeIf { it.id.idPremio == idPremio && it.id.year == year } }
+
+        return escuela.toDto()
+    }
+
     private fun getById(id:Long) =
         escuelaRepository.findById(id)
             .getOrNull()
-            ?:throw NoSuchElementException("No se encontró el lugar con id $id")
+            ?:throw NoSuchElementException("No se encontró la Escuela con id $id")
 
     fun <T : Any> Optional<out T>.toList(): List<T> =
         if (this.isPresent) listOf(this.get()) else emptyList()
