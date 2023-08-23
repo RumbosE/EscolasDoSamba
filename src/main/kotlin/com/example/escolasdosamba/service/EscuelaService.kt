@@ -1,24 +1,22 @@
 package com.example.escolasdosamba.service
 
 import com.example.escolasdosamba.dao.Escuela
+import com.example.escolasdosamba.dao.Ganador
+import com.example.escolasdosamba.dao.GanadorId
 import com.example.escolasdosamba.dao.TelefonoId
 import com.example.escolasdosamba.dto.escuela.EscuelaCreateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelaDto
 import com.example.escolasdosamba.dto.escuela.EscuelaUpdateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelasDto
-import com.example.escolasdosamba.dto.integrante.IntegranteCreateRequestDto
-import com.example.escolasdosamba.dto.integrante.IntegrantesDto
 import com.example.escolasdosamba.dto.premio.PremioEspecialCreateRequestDto
 import com.example.escolasdosamba.dto.telefono.TelefonoCreateRequestDto
 import com.example.escolasdosamba.mapper.toDao
 import com.example.escolasdosamba.mapper.toDto
 import com.example.escolasdosamba.mapper.toSummaryDto
-import com.example.escolasdosamba.repository.ColorRepository
-import com.example.escolasdosamba.repository.EscuelaRepository
-import com.example.escolasdosamba.repository.LugarRepository
-import com.example.escolasdosamba.repository.TelefonoRepository
+import com.example.escolasdosamba.repository.*
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.sql.Date
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
@@ -42,6 +40,8 @@ interface IEscuelaService{
 
     fun deleteTelefonoToEscuela(id: Long, codigo: Long, numero:Long): EscuelaDto
 
+    fun agregarPremioEspecial(id: Long, year: Date,premioEspecialCreateRequestDto: PremioEspecialCreateRequestDto): EscuelaDto
+
 }
 
 @Service
@@ -49,7 +49,12 @@ class EscuelaService(
     private val escuelaRepository: EscuelaRepository,
     private val lugarRepository: LugarRepository,
     private val colorRepository: ColorRepository,
-    private val telefonoRepository: TelefonoRepository
+    private val telefonoRepository: TelefonoRepository,
+    private val ganadorRepository: GanadorRepository,
+    private val premioRepository: PremioEspecialRepository,
+
+    private val premioEspecialService: PremioEspecialService,
+
 ): IEscuelaService {
 
     override fun getEscuelas() = escuelaRepository.findAll()
@@ -123,6 +128,29 @@ class EscuelaService(
             throw IllegalArgumentException("La escuela no tiene el telefono con codigo $codigo y numero $numero")
 
         telefonoRepository.deleteById(TelefonoId(codigo, numero)).also { escuela.telefonos.removeIf { it.id.codigo == codigo && it.id.numero == numero } }
+
+        return escuela.toDto()
+    }
+
+    @Transactional
+    override fun agregarPremioEspecial(id: Long, year: Date, premioEspecialCreateRequestDto: PremioEspecialCreateRequestDto): EscuelaDto {
+
+        val escuela = getById(id)
+
+        val premio = premioEspecialService.savePremio(id, premioEspecialCreateRequestDto)
+
+        val ganador = {
+            Ganador(
+               id = GanadorId(
+                   idPremio = premio.id?: throw Exception("IdPremio is required"),
+                   year = year
+               ),
+                id_escuela = id,
+                escuelaPremio = escuela,
+                premioGanador = premioRepository.findById(premio.id).get()
+            )
+        }
+        escuela.premios.add(ganadorRepository.save(ganador()))
 
         return escuela.toDto()
     }

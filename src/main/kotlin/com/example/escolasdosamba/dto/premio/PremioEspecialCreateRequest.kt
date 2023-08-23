@@ -12,16 +12,4 @@ data class PremioEspecialCreateRequestDto(
         val description: String?,
 
         val lugarId: Long,
-
-        val year: Date,
-
 )
-
-data class GanadorEscuelaDto(
-
-        val idEscuela: Long,
-
-        val year: Date,
-
-        val idPremio: Long,
-    )

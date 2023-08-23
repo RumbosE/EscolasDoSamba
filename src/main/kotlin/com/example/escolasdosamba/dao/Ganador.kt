@@ -11,6 +11,9 @@ data class Ganador(
     @EmbeddedId
     var id: GanadorId,
 
+    @Column(name = "id_escuela")
+    var id_escuela: Long,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_escuela", referencedColumnName = "id", insertable = false, updatable = false)
     var escuelaPremio : Escuela? = null,

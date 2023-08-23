@@ -1,7 +1,6 @@
 package com.example.escolasdosamba.mapper
 
 import com.example.escolasdosamba.dao.*
-import com.example.escolasdosamba.dto.premio.GanadorEscuelaDto
 import com.example.escolasdosamba.dto.premio.PremioEspecialCreateRequestDto
 import com.example.escolasdosamba.dto.premio.PremioEspecialDto
 
@@ -28,14 +27,5 @@ fun PremioEspecialCreateRequestDto.toDao(lugar: Lugar) = PremioEspecial(
     type = type?: throw Exception("Type is required"),
     description = description,
     place = lugar
-)
-
-fun GanadorEscuelaDto.toDao( premio: PremioEspecial, escuela: Escuela) = Ganador(
-    id = GanadorId(
-        idPremio = idPremio?: throw Exception("IdPremio is required"),
-        year = year?: throw Exception("Year is required")
-    ),
-    escuelaPremio = escuela,
-    premioGanador = premio
 )
 
