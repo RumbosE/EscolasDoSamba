@@ -8,4 +8,12 @@ import org.springframework.stereotype.Repository
 interface PeriodoActivoRepository: JpaRepository<PeriodoActivo, PeriodoActivoId> {
 
     fun findByIdIdEscuela(idEscuela: Long): List<PeriodoActivo>
+
+    fun findByIdIdEscuelaAndAuthority (idEscuela: Long, authority: Char): List<PeriodoActivo>
+
+    fun findByIdIdEscuelaAndEndDateIsNull (idEscuela: Long): List<PeriodoActivo>
+
+    fun findByIdIdEscuelaAndEndDateIsNotNull (idEscuela: Long): List<PeriodoActivo>
+
+
 }

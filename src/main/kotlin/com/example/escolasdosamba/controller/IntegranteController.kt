@@ -14,6 +14,17 @@ class IntegranteController(
 ) {
 
     @GetMapping("/escuelas/{idEscuela}")
-    fun getIntegrantesByEscuelaId(@PathVariable idEscuela: Long) = integranteService.getIntegrantesByEscuelaId(idEscuela)
+    fun getIntegrantesByEscuela(@PathVariable idEscuela: Long) = integranteService.getIntegrantesByEscuela(idEscuela)
 
+    @GetMapping("/{id}")
+    fun getIntegranteById(@PathVariable id: Long) = integranteService.getIntegranteById(id)
+
+    @GetMapping("/escuelas/{idEscuela}/activos")
+    fun getIntegrantesActivosByEscuela(@PathVariable idEscuela: Long) = integranteService.getIntegrantesActivosByEscuela(idEscuela)
+
+    @GetMapping("/escuelas/{idEscuela}/inactivos")
+    fun getIntegrantesInactivosByEscuela(@PathVariable idEscuela: Long) = integranteService.getIntegrantesInactivosByEscuela(idEscuela)
+
+    @GetMapping("/escuelas/{idEscuela}/autoridades")
+    fun getIntegrantesAutoridadesByEscuela(@PathVariable idEscuela: Long) = integranteService.getIntegrantesAutoridadesByEscuela(idEscuela)
 }

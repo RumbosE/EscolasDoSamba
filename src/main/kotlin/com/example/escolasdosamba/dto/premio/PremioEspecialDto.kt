@@ -14,5 +14,5 @@ data class PremioEspecialDto (
 
     val place: String?,
 
-    val year: Date
+    val year: Date?
 )

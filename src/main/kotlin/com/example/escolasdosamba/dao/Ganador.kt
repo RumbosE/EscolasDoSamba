@@ -13,7 +13,7 @@ data class Ganador(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_escuela", referencedColumnName = "id", insertable = false, updatable = false)
-    val escuelaPremio : Escuela? = null,
+    var escuelaPremio : Escuela? = null,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_premio", referencedColumnName = "id", insertable = false, updatable = false)

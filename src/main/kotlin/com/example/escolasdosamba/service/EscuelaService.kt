@@ -6,7 +6,9 @@ import com.example.escolasdosamba.dto.escuela.EscuelaCreateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelaDto
 import com.example.escolasdosamba.dto.escuela.EscuelaUpdateRequestDto
 import com.example.escolasdosamba.dto.escuela.EscuelasDto
+import com.example.escolasdosamba.dto.integrante.IntegranteCreateRequestDto
 import com.example.escolasdosamba.dto.integrante.IntegrantesDto
+import com.example.escolasdosamba.dto.premio.PremioEspecialCreateRequestDto
 import com.example.escolasdosamba.dto.telefono.TelefonoCreateRequestDto
 import com.example.escolasdosamba.mapper.toDao
 import com.example.escolasdosamba.mapper.toDto

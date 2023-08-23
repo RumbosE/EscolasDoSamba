@@ -36,6 +36,12 @@ data class Escuela(
         @OneToMany(mappedBy = "escuelaTitulo")
         var titulos: MutableList<Titulo> = mutableListOf(),
 
+        @OneToMany(mappedBy = "escuelaPremio")
+        var premios: MutableList<Ganador> = mutableListOf(),
+
+        @OneToMany(mappedBy = "escuelaPeriodoActivo")
+        var periodosActivos: MutableList<PeriodoActivo> = mutableListOf(),
+
         @ManyToMany
         @JoinTable(
                 name= "erl_e_c",
@@ -44,9 +50,4 @@ data class Escuela(
         )
         var colors: MutableList<Color> = mutableListOf(),
 
-        @OneToMany(mappedBy = "escuelaPremio")
-        var premios: MutableList<Ganador> = mutableListOf(),
-
-        @OneToMany(mappedBy = "escuelaPeriodoActivo")
-        var periodosActivos: MutableList<PeriodoActivo> = mutableListOf()
 )
