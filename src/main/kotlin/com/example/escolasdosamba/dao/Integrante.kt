@@ -48,21 +48,11 @@ data class Integrante(
     )
     var ability : MutableList<Habilidad> = mutableListOf(),
 
-    @ManyToMany
-    @JoinTable(
-        name= "erl_parentesco",
-        joinColumns = [JoinColumn(name="id_integrante1")],
-        inverseJoinColumns = [JoinColumn(name="id_integrante2")]
-    )
-    var parentescos: MutableList<Integrante> = mutableListOf(),
+    @OneToMany(mappedBy = "integrante1")
+    var parentescos1: MutableList<Parentesco> = mutableListOf(),
 
-    @ManyToMany
-    @JoinTable(
-        name= "erl_parentesco",
-        joinColumns = [JoinColumn(name="id_integrante2")],
-        inverseJoinColumns = [JoinColumn(name="id_integrante1")]
-    )
-    var parentescos2: MutableList<Integrante> = mutableListOf(),
+    @OneToMany(mappedBy = "integrante2")
+    var parentescos2: MutableList<Parentesco> = mutableListOf(),
 
 
 )

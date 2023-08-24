@@ -1,7 +1,9 @@
 package com.example.escolasdosamba.mapper
 
 import com.example.escolasdosamba.dao.Integrante
+import com.example.escolasdosamba.dao.Parentesco
 import com.example.escolasdosamba.dao.PeriodoActivo
+import com.example.escolasdosamba.dao.PeriodoActivoId
 import com.example.escolasdosamba.dto.habilidad.HabilidadDto
 import com.example.escolasdosamba.dto.integrante.*
 
@@ -42,17 +44,31 @@ fun Integrante.toDto() = IntegranteDto(
         )
     }.toMutableList(),
 
-    relationship = parentescos.map(Integrante::toParentescoDto).toMutableList().apply {
-        addAll(parentescos2.map(Integrante::toParentescoDto))
+    relationship = parentescos1.map(Parentesco::toParentescoDto).toMutableList().apply {
+        addAll(parentescos2.map(Parentesco::toParentescoDto))
     },
 
 )
 
-fun Integrante.toParentescoDto() = ParentescoIntegranteDto(
-    id = id!!,
-    firstName = firstName,
-    firstSurname = firstSurname,
-    school = periodosActivos.first().escuelaPeriodoActivo!!.name
+fun Parentesco.toParentescoDto() = ParentescoIntegranteDto(
+    id = integrante2.id!!,
+    firstName = integrante2.firstName,
+    firstSurname = integrante2.firstSurname,
+    school = integrante2.periodosActivos.first().escuelaPeriodoActivo?.name ?: "No pertenece a ninguna escuela",
+    relationship = relation
+)
+
+fun IntegranteCreateRequestDto.toDao() = Integrante(
+
+    firstName = firstName ?: throw IllegalArgumentException("El Primernombre es requerido"),
+    secondName = secondName,
+    firstSurname = firstSurname ?: throw IllegalArgumentException("El primer apellido es requerido"),
+    secondSurname = secondSurname,
+    birthDate = birthDate ?: throw IllegalArgumentException("La fecha de nacimiento no puede ser nula"),
+    nationality = nationality ?: throw IllegalArgumentException("La nacionalidad no puede ser nula"),
+    identityDocument = identityDocument,
+    nickname = nickname,
+
 )
 
 

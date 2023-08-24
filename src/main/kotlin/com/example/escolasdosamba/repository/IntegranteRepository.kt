@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface IntegranteRepository: JpaRepository<Integrante, Long> {
 
-
+    fun existsIntegranteByIdentityDocumentEquals(identityDocument: String): Boolean
 
 }

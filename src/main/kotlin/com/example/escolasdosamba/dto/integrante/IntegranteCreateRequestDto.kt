@@ -14,6 +14,4 @@ data class IntegranteCreateRequestDto  (
     val registrationDate: Date?,
     val endDate: Date?,
     val authority: Char?,
-    val idEscuela: Long?,
-
 )

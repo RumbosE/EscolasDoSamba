@@ -45,7 +45,6 @@ interface IEscuelaService{
 
     fun deletePremioEspecial(id: Long, year: Date, idPremio: Long): EscuelaDto
 
-
 }
 
 @Service

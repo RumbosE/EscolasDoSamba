@@ -15,5 +15,9 @@ interface PeriodoActivoRepository: JpaRepository<PeriodoActivo, PeriodoActivoId>
 
     fun findByIdIdEscuelaAndEndDateIsNotNull (idEscuela: Long): List<PeriodoActivo>
 
+    fun findByIdIdIntegranteAndEndDateIsNull (idIntegrante: Long): PeriodoActivo
 
+    fun existsByIdIdIntegranteAndEndDateIsNull (idIntegrante: Long): Boolean
+
+    fun findAllByEndDateIsNotNull () : List<PeriodoActivo>
 }

@@ -32,7 +32,9 @@ data class ParentescoIntegranteDto(
     val id: Long,
     val firstName: String,
     val firstSurname: String,
+    val relationship: String,
     val school: String
+
 )
 
 data class EscuelasInfoIntegranteDto(
